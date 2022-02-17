@@ -18,7 +18,7 @@
   },
   "require": {
 		"php": ">=7.3",
-    "craftcms/cms": "^3.5.0",
+    "craftcms/cms": "^3.7.0",
     "illuminate/collections": "^8.83",
     "league/fractal": "^0.18.0"
   },
