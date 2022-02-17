@@ -2,6 +2,8 @@
 
 📊 Export Craft data as CSVs in a snap!
 
+<img src="docs/reports.png" width="1200" alt="An example of the reports screen before a user has initiated an export">
+
 ## ⚡️ Features
 
 - 🏎 Reports are processed with [Query Batching](https://craftcms.com/knowledge-base/query-batching-batch-each), making exports run quickly and without exhausting your memory limit
@@ -77,6 +79,8 @@ return [
     ]
 ];
 ```
+
+<img src="docs/export.png" width="1200" alt="The exports screen that is displayed when you have not exported any reports yet.">
 
 ## 🤝 Contributing
 
