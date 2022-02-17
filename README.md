@@ -1,4 +1,4 @@
-# Reporter
+# <img src="src/icon.svg" height="20" width="20"> Reporter
 
 Example Config
 ```php
