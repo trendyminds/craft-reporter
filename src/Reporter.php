@@ -49,7 +49,7 @@ class Reporter extends Plugin
 	public function getExportPath()
 	{
 		$volume = Craft::$app->getVolumes()->getVolumeByHandle(
-			$this->getSettings()->volume
+			$this->getSettings()->volume ?? ''
 		);
 
 		if (!$volume) {
