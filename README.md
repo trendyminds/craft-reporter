@@ -31,10 +31,10 @@ return [
     'displayName' => 'Reports',
 
     // The asset volume handle where your reports should be saved
-		// NOTE: Your reports are publicly accessible if your volume has "Assets in this volume have public URLs" enabled
+    // NOTE: Your reports are publicly accessible if your volume has "Assets in this volume have public URLs" enabled
     'volume' => 'uploads',
 
-		// An optional folder path if you would like to nest the reports in a specific directory
+    // An optional folder path if you would like to nest the reports in a specific directory
     'folder' => 'resources/reports',
 
     // An array of reports to produce
@@ -57,7 +57,7 @@ return [
             ];
         },
 
-				'allImages' => function () {
+        'allImages' => function () {
             return [
                 'name' => 'Uploaded Images',
                 'description' => 'A list of all images uploaded into Craft',
