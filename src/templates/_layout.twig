@@ -1,0 +1,21 @@
+{% do view.registerAssetBundle("trendyminds\\reporter\\assetbundles\\ReporterBundle") %}
+
+{% extends "_layouts/cp" %}
+{% set title = displayName ?? title %}
+
+{% block sidebar %}
+	<nav>
+		<ul>
+			<li>
+				<a href="{{ url('reporter') }}" class="{{ craft.app.request.segments | last == 'reporter' ? 'sel' }}">
+					Reports
+				</a>
+			</li>
+			<li>
+				<a href="{{ url('reporter/exports') }}" class="{{ craft.app.request.segments | last == 'exports' ? 'sel' }}">
+					Exports
+				</a>
+			</li>
+		</ul>
+	</nav>
+{% endblock %}

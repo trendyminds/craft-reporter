@@ -1,0 +1,42 @@
+{
+  "name": "trendyminds/craft-reporter",
+  "description": "Export Craft data as CSVs in a snap",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": ["reports", "craft", "craft cms"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "TrendyMinds",
+      "homepage": "https://trendyminds.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/trendyminds/craft-reporter/issues?state=open",
+    "source": "https://github.com/trendyminds/craft-reporter",
+    "docs": "https://github.com/trendyminds/craft-reporter/blob/master/README.md"
+  },
+  "require": {
+		"php": ">=7.3",
+    "craftcms/cms": "^3.5.0",
+    "illuminate/collections": "^8.83",
+    "league/fractal": "^0.18.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "trendyminds\\reporter\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Reporter",
+    "handle": "reporter",
+    "class": "trendyminds\\reporter\\Reporter",
+    "changelogUrl": "https://raw.githubusercontent.com/trendyminds/craft-reporter/main/CHANGELOG.md"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": false,
+      "craftcms/plugin-installer": false
+    }
+  }
+}

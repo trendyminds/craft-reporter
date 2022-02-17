@@ -1,0 +1,66 @@
+{% extends "reporter/_layout" %}
+{% set title = "Exports" %}
+
+{% block content %}
+	{% if reports | length == 0 %}
+		<div class="tw-py-5 tw-text-center tw-max-w-2xl tw-mx-auto">
+			<svg xmlns="http://www.w3.org/2000/svg" class="tw-h-24 tw-w-24 tw-text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+
+			<h2>No exported reports exist...yet!</h2>
+			<p>
+				We don't have anything to show you because you haven't exported your first report. When you're ready, run an export of a report from <a href="{{ url('reporter') }}">the Reports section</a> and you'll see the processed CSV in this area.
+			</p>
+		</div>
+	{% endif %}
+
+	{% if reports | length > 0 %}
+		<div class="tableview tablepane">
+			<table class="data fullwidth">
+				<thead>
+					<tr>
+						<th>Report Name</th>
+						<th>Size</th>
+						<th>Date Created</th>
+						<th>Exported By</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for report in reports %}
+						<tr>
+							<td>
+								<a href="{{ report.getCpEditUrl() }}" class="tw-flex tw-items-center tw-gap-2">
+									{{ report.getPreviewThumbImg(32, 32) | attr({ class: 'tw-w-10 tw-h-10' }) }}
+									{{ report.title }}
+								</a>
+							</td>
+							<td>{{ report.formattedSize }}</td>
+							<td>{{ report.dateCreated | timestamp('short') }}</td>
+							<td>
+								{% if report.getUploader() %}
+									<a href="{{ report.getUploader().getCpEditUrl }}" class="tw-flex tw-items-center tw-gap-2">
+										<img
+											src="{{ report.getUploader().getThumbUrl(32) }}"
+											class="tw-w-8 tw-h-8 tw-rounded-full"
+										>
+										{{ report.getUploader().name }}
+									</a>
+								{% endif %}
+							</td>
+							<td>
+								<form method="post">
+									{{ csrfInput() }}
+									{{ actionInput('assets/download-asset') }}
+									{{ hiddenInput('assetId', report.id) }}
+									<button class="btn submit" type="submit">
+										Download
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+{% endblock %}
