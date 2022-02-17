@@ -4,7 +4,6 @@ namespace trendyminds\reporter\jobs;
 
 use Craft;
 use craft\elements\Asset;
-use craft\helpers\Db;
 use craft\helpers\FileHelper;
 use craft\helpers\StringHelper;
 use craft\queue\BaseJob;
@@ -20,7 +19,7 @@ class ExportJob extends BaseJob
 	public function execute($queue)
 	{
 		$report = Reporter::getInstance()->getReportData($this->handle);
-		$batch = Db::batch($report->query);
+		$batch = $report->query->batch();
 
 		// The total number of records to process is either the limit set by the user, or all records in the query
 		$totalRecords = $report->query->limit ?? $report->query->count();

@@ -6,7 +6,7 @@
 
 ## ⚡️ Features
 
-- 🏎 Reports are processed with [Query Batching](https://craftcms.com/knowledge-base/query-batching-batch-each), making exports run quickly and without exhausting your memory limit
+- 🏎 Reports are processed with [Query Batching](https://www.yiiframework.com/doc/api/2.0/yii-db-query#batch()-detail), making exports run quickly and without exhausting your memory limit
 - 🧘 Inspired by [Element API](https://github.com/craftcms/element-api), create reports with a simple and familiar structure
 - 📦 Reports stored using Asset volumes so you can host reports locally or on a cloud-based service like Amazon S3
 
