@@ -17,7 +17,7 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->requirePermission('accessReporter');
+		$this->requirePermission('accessPlugin-reporter');
 
 		return $this->renderTemplate("reporter/index", [
 			'displayName' => Reporter::getInstance()->getSettings()->displayName,
@@ -39,7 +39,7 @@ class DefaultController extends Controller
 	 */
 	public function actionExports()
 	{
-		$this->requirePermission('accessReporter');
+		$this->requirePermission('accessPlugin-reporter');
 
 		$folderVolume = Reporter::getInstance()->getExportPath();
 
@@ -53,7 +53,7 @@ class DefaultController extends Controller
 	 */
 	public function actionRun()
 	{
-		$this->requirePermission('accessReporter');
+		$this->requirePermission('accessPlugin-reporter');
 		$this->requirePostRequest();
 
 		$reportHandle = $this->request->getRequiredBodyParam('report');

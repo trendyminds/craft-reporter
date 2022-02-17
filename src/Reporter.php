@@ -4,18 +4,16 @@ namespace trendyminds\reporter;
 
 use Craft;
 use craft\base\Plugin;
-use craft\events\RegisterCpNavItemsEvent;
-use craft\web\twig\variables\Cp;
 use craft\events\RegisterUrlRulesEvent;
-use craft\events\RegisterUserPermissionsEvent;
 use craft\models\VolumeFolder;
-use craft\services\UserPermissions;
 use craft\web\UrlManager;
 use Stringy\Stringy;
 use yii\base\Event;
 
 class Reporter extends Plugin
 {
+	public $hasCpSection = true;
+
 	public function init()
 	{
 		parent::init();
@@ -27,35 +25,6 @@ class Reporter extends Plugin
 			function (RegisterUrlRulesEvent $event) {
 				$event->rules['reporter'] = 'reporter/default/index';
 				$event->rules['reporter/exports'] = 'reporter/default/exports';
-			}
-		);
-
-		// Setup the control panel navigation link
-		Event::on(
-			Cp::class,
-			Cp::EVENT_REGISTER_CP_NAV_ITEMS,
-			function(RegisterCpNavItemsEvent $event) {
-				// Add the navigation item if the user has access to Reporter
-				if (Craft::$app->user->checkPermission('accessReporter')) {
-					$event->navItems[] = [
-						'url' => 'reporter',
-						'label' => $this->getSettings()->displayName,
-						'icon' => '@trendyminds/reporter/icon-mask.svg'
-					];
-				}
-			}
-		);
-
-		// Setup user permissions to access the plugin area
-		Event::on(
-			UserPermissions::class,
-			UserPermissions::EVENT_REGISTER_PERMISSIONS,
-			function(RegisterUserPermissionsEvent $event) {
-				$event->permissions['Reporter'] = [
-					'accessReporter' => [
-						'label' => 'Access Reporter',
-					],
-				];
 			}
 		);
 	}
