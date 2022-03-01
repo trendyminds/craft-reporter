@@ -25,7 +25,7 @@ class ReportController extends Controller
   }
 
   /**
-  * php craft reporter/report --handle=pages
+  *  Run Reporter from the command line. Must pass in --handle=<report Craft handle>
   */
   public function actionIndex()
   {
