@@ -11,7 +11,7 @@ use yii\helpers\Console;
 class ReportController extends Controller
 {
 	/**
-	 * @var string|null The type of sync to run
+	 * @var string The handle of the report to export
 	 */
 	public $handle = null;
 
@@ -24,20 +24,34 @@ class ReportController extends Controller
 	}
 
 	/**
-	 *  Run Reporter from the command line. Must pass in --handle=<report Craft handle>
+	 *  Export a single Reporter report using --handle=myReportHandle
 	 */
 	public function actionIndex()
 	{
-		$report = Reporter::getInstance()->getReport($this->handle);
-
-		if(!$report){
-			$this->stderr("You must specify the handle of an existing report to export. Consult config/reporter.php to ensure you have created one and you are using the handle." . PHP_EOL, Console::FG_RED);
+		// Error if the user did not supply a --handle param
+		if (! $this->handle) {
+			$this->stderr("You must supply a --handle parameter to indicate which report to process:" . PHP_EOL, Console::FG_RED);
+			$this->stderr("php craft reporter/report --handle=myReportHandle" . PHP_EOL);
 			die();
 		}
 
+		// Get the report by its handle
+		$report = Reporter::getInstance()->getReport($this->handle);
+
+		// Error out if we did not find a match
+		if(! $report) {
+			$this->stderr("You must specify the handle of an existing report to export." . PHP_EOL, Console::FG_RED);
+			$this->stderr("Consult `config/reporter.php` to ensure you created at least one report and properly referenced the handle." . PHP_EOL, Console::FG_RED);
+			die();
+		}
+
+		// Process the closure and reassign the output for the remaining steps
 		$report = $report();
+
+		// Provide a bit of visual feedback to the user that their report is being processed
 		$this->stdout("Running report " . $report['name'] . "." . PHP_EOL, Console::FG_BLUE);
 
+		// Send the process to the queue
 		Craft::$app->getQueue()->push(
 			new ExportJob([
 				'handle' => $this->handle,
