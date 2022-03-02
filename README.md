@@ -9,6 +9,7 @@
 - 🏎 Reports are processed with [Query Batching](https://www.yiiframework.com/doc/api/2.0/yii-db-query#batch()-detail), making exports run quickly and without exhausting your memory limit
 - 🧘 Inspired by [Element API](https://github.com/craftcms/element-api), create reports with a simple and familiar structure
 - 📦 Reports stored using Asset volumes so you can host reports locally or on a cloud-based service like Amazon S3
+- 🖥 Process reports via the CLI using `php craft reporter/report --handle=myReport` where `myReport` is the key of a specific report in the `reports` array found in `config/reporter.php`.
 
 ## 📦 Installing
 
