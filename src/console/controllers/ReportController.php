@@ -49,7 +49,7 @@ class ReportController extends Controller
 		$report = $report();
 
 		// Provide a bit of visual feedback to the user that their report is being processed
-		$this->stdout("Running report " . $report['name'] . "." . PHP_EOL, Console::FG_BLUE);
+		$this->stdout('Added an export of the "' . $report['name'] . '" report to the queue.' . PHP_EOL, Console::FG_BLUE);
 
 		// Send the process to the queue
 		Craft::$app->getQueue()->push(
