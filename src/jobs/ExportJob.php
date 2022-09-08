@@ -50,6 +50,9 @@ class ExportJob extends BaseJob
 			$resource = new Collection($row, $report->transformer);
 			$data = (new Manager())->createData($resource)->toArray()['data'];
 
+			// Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
+			$data = collect($data)->filter()->values()->toArray();
+
 			foreach ($data as $record) {
 				fputcsv($output, $record);
 			}
