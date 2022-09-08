@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 1.3.0 - 2022-09-08
+
+### Added
+- Allow the ability to "skip" over an item by returning an empty array
+
 ## 1.2.0 - 2022-03-01
 
 > {warning} This update modifies the permission behavior of the plugin. If you have given permissions to users or user groups for Reporter you will need to re-enable these under the "General" section of Craft's permission utility for each user/group.

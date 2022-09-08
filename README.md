@@ -69,6 +69,13 @@ return [
                     'kind' => 'image'
                 ],
                 'transformer' => function (Asset $asset) {
+
+										// Skip example
+										// Ignore assets that have an even number for an ID
+										if ($asset->id % 2 === 0) {
+											return [];
+										}
+
                     return [
                         "id" => $asset->id,
                         "title" => $asset->title,
