@@ -79,7 +79,12 @@ class ExportJob extends BaseJob
 			$asset->filename = $fileName;
 			$asset->kind = "application/csv";
 			$asset->newFolderId = (int) $folderVolume->id;
-			$asset->uploaderId = Craft::$app->user->identity->id;
+
+			// Only attempt to attach an author if we can determine the identity of the signed-in user
+			// This ensures we can run this without error from the console commands
+			if (Craft::$app->user->identity) {
+				$asset->uploaderId = Craft::$app->user->identity->id;
+			}
 
 			$success = Craft::$app->elements->saveElement($asset);
 

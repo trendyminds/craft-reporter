@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 1.3.1 - 2022-10-03
+
+### Fixed
+- Only set an author if the user's identity can be determined
+
 ## 1.3.0 - 2022-09-08
 
 ### Added
