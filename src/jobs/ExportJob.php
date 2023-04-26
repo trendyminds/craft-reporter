@@ -41,6 +41,11 @@ class ExportJob extends BaseJob
 		// Create the first header row
 		$headers = array_keys($record);
 		$output = fopen($filePath, "w+");
+		
+		// Add the BOM for UTF-8
+		fwrite($output, "\xEF\xBB\xBF");
+		
+		// Write the header row to the CSV
 		fputcsv($output, $headers);
 
 		// Loop through each element and insert it into the CSV as a new row
