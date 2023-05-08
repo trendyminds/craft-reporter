@@ -47,6 +47,10 @@ class ExportJob extends BaseJob
 
 		// Create the first header row
 		$output = fopen($filePath, "w+");
+
+		//header utf-8
+		fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
 		fputcsv($output, $headers());
 
 		// Loop through each element and insert it into the CSV as a new row
@@ -60,6 +64,9 @@ class ExportJob extends BaseJob
 			$data = collect($data)->filter()->values()->toArray();
 
 			foreach ($data as $record) {
+				//header utf-8
+				fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
 				fputcsv($output, $record);
 			}
 
