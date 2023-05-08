@@ -9,10 +9,11 @@ use craft\models\VolumeFolder;
 use craft\web\UrlManager;
 use Stringy\Stringy;
 use yii\base\Event;
+use trendyminds\reporter\models\Settings;
 
 class Reporter extends Plugin
 {
-	public $hasCpSection = true;
+	public bool $hasCpSection = true;
 
 	public function init()
 	{

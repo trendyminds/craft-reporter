@@ -10,8 +10,6 @@ use trendyminds\reporter\jobs\ExportJob;
 
 class DefaultController extends Controller
 {
-	protected $allowAnonymous = false;
-
 	/**
 	 * The landing page controller that displays all available reports that can be exported.
 	 */
