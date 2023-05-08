@@ -32,16 +32,22 @@ class ExportJob extends BaseJob
 		$filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $fileName;
 
 		/**
+		 * Use the headers provided by the user OR
 		 * Get the first row of the query, transform the data, and output it as the first
 		 * row in our CSV to act as the headers
 		 */
-		$resource = new Collection([ $report->query->one() ], $report->transformer);
-		$record = (new Manager())->createData($resource)->toArray()['data'][0];
+
+		if ($report->headers) {
+			$headers = $report->headers;
+		} else {
+			$resource = new Collection([ $report->query->one() ], $report->transformer);
+			$record = (new Manager())->createData($resource)->toArray()['data'][0];
+			$headers = array_keys($record);
+		}
 
 		// Create the first header row
-		$headers = array_keys($record);
 		$output = fopen($filePath, "w+");
-		fputcsv($output, $headers);
+		fputcsv($output, $headers());
 
 		// Loop through each element and insert it into the CSV as a new row
 		foreach ($batch as $i => $row) {

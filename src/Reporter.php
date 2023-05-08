@@ -98,6 +98,7 @@ class Reporter extends Plugin
 
 		return (object) [
 			'query' => $query,
+			'headers' => $config['headers'],
 			'transformer' => $config['transformer'],
 		];
 	}
