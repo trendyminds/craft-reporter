@@ -4,6 +4,7 @@ namespace trendyminds\reporter;
 
 use Craft;
 use craft\base\Plugin;
+use craft\base\Model;
 use craft\events\RegisterUrlRulesEvent;
 use craft\models\VolumeFolder;
 use craft\web\UrlManager;
@@ -47,7 +48,7 @@ class Reporter extends Plugin
 	 *
 	 * @return VolumeFolder
 	 */
-	public function getExportPath()
+	public function getExportPath() : VolumeFolder
 	{
 		$volume = Craft::$app->getVolumes()->getVolumeByHandle(
 			$this->getSettings()->volume ?? ''
@@ -102,11 +103,10 @@ class Reporter extends Plugin
 	}
 
 	/**
-	 * The plugin settings
-	 *
-	 * @return void
+	 * Register Settings Model.
+	 * @return Model
 	 */
-	protected function createSettingsModel()
+	protected function createSettingsModel(): Model
 	{
 		return new Settings();
 	}

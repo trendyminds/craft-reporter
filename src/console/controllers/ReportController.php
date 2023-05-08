@@ -15,7 +15,7 @@ class ReportController extends Controller
 	 */
 	public $handle = null;
 
-	public function options($actionID)
+	public function options($actionID): array
 	{
 		$options = parent::options($actionID);
 		$options[] = 'handle';
