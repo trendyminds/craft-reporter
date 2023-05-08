@@ -17,7 +17,7 @@
     "docs": "https://github.com/trendyminds/craft-reporter/blob/master/README.md"
   },
   "require": {
-		"php": ">=7.3",
+		"php": ">=8.0",
     "craftcms/cms": "^4.0.0",
     "illuminate/collections": "^9.52.7",
     "league/fractal": "^0.18.0"
