@@ -50,6 +50,14 @@ return [
                 'criteria' => [
                     'section' => 'pages'
                 ],
+								// An optional array of column headers. If not specified, reports will default to using the first row in the query.
+								'headers' => function () : array {
+									return [
+										'Foo Bar',
+										'Baz',
+										'Baz Bar Foo',
+									];
+								},
                 'transformer' => function (Entry $entry) {
                     return [
                         "id" => $entry->id,

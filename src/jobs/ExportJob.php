@@ -31,27 +31,27 @@ class ExportJob extends BaseJob
 		$fileName = $this->handle . "-" . StringHelper::UUID() . '.csv';
 		$filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $fileName;
 
-		/**
-		 * Use the headers provided by the user OR
-		 * Get the first row of the query, transform the data, and output it as the first
-		 * row in our CSV to act as the headers
-		 */
-
-		if ($report->headers) {
-			$headers = $report->headers();
-		} else {
-			$resource = new Collection([ $report->query->one() ], $report->transformer);
-			$record = (new Manager())->createData($resource)->toArray()['data'][0];
-			$headers = array_keys($record);
-		}
-
 		// Create the first header row
 		$output = fopen($filePath, "w+");
 
 		//header utf-8
 		fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
-		fputcsv($output, $headers);
+		/**
+		 * Use the headers provided by the user OR
+		 * Get the first row of the query, transform the data, and output it as the first
+		 * row in our CSV to act as the headers
+		 */
+		if ($report->headers !== null) {
+			ray($report->headers)->showApp();
+			fputcsv($output, $report->headers);
+		} else {
+			$resource = new Collection([ $report->query->one() ], $report->transformer);
+			$record = (new Manager())->createData($resource)->toArray()['data'][0];
+			$headers = array_keys($record);
+			ray($headers)->showApp();
+			fputcsv($output, $headers);
+		}
 
 		// Loop through each element and insert it into the CSV as a new row
 		foreach ($batch as $i => $row) {
