@@ -13,93 +13,94 @@ use trendyminds\reporter\Reporter;
 
 class ExportJob extends BaseJob
 {
-	public $name;
-	public $handle;
+    public $name;
 
-	public function execute($queue)
-	{
-		$report = Reporter::getInstance()->getReportData($this->handle);
-		$batch = $report->query->batch();
+    public $handle;
 
-		// The total number of records to process is either the limit set by the user, or all records in the query
-		$totalRecords = $report->query->limit ?? $report->query->count();
+    public function execute($queue)
+    {
+        $report = Reporter::getInstance()->getReportData($this->handle);
+        $batch = $report->query->batch();
 
-		/**
-		 * Construct the temporary CSV file for writing each row
-		 */
-		$uploadDirectory = Craft::$app->getPath()->getTempAssetUploadsPath();
-		$fileName = $this->handle . "-" . StringHelper::UUID() . '.csv';
-		$filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $fileName;
+        // The total number of records to process is either the limit set by the user, or all records in the query
+        $totalRecords = $report->query->limit ?? $report->query->count();
 
-		/**
-		 * Get the first row of the query, transform the data, and output it as the first
-		 * row in our CSV to act as the headers
-		 */
-		$resource = new Collection([ $report->query->one() ], $report->transformer);
-		$record = (new Manager())->createData($resource)->toArray()['data'][0];
+        /**
+         * Construct the temporary CSV file for writing each row
+         */
+        $uploadDirectory = Craft::$app->getPath()->getTempAssetUploadsPath();
+        $fileName = $this->handle.'-'.StringHelper::UUID().'.csv';
+        $filePath = $uploadDirectory.DIRECTORY_SEPARATOR.$fileName;
 
-		// Create the first header row
-		$headers = array_keys($record);
-		$output = fopen($filePath, "w+");
-		fputcsv($output, $headers);
+        /**
+         * Get the first row of the query, transform the data, and output it as the first
+         * row in our CSV to act as the headers
+         */
+        $resource = new Collection([$report->query->one()], $report->transformer);
+        $record = (new Manager())->createData($resource)->toArray()['data'][0];
 
-		// Loop through each element and insert it into the CSV as a new row
-		foreach ($batch as $i => $row) {
-			$step = ($i + 1) * $batch->batchSize;
+        // Create the first header row
+        $headers = array_keys($record);
+        $output = fopen($filePath, 'w+');
+        fputcsv($output, $headers);
 
-			$resource = new Collection($row, $report->transformer);
-			$data = (new Manager())->createData($resource)->toArray()['data'];
+        // Loop through each element and insert it into the CSV as a new row
+        foreach ($batch as $i => $row) {
+            $step = ($i + 1) * $batch->batchSize;
 
-			// Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
-			$data = collect($data)->filter()->values()->toArray();
+            $resource = new Collection($row, $report->transformer);
+            $data = (new Manager())->createData($resource)->toArray()['data'];
 
-			foreach ($data as $record) {
-				fputcsv($output, $record);
-			}
+            // Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
+            $data = collect($data)->filter()->values()->toArray();
 
-			// Update the progress of the report to indicate something is happening
-			$this->setProgress(
-				$queue,
-				($step / $totalRecords),
-				"Exporting $step of $totalRecords"
-			);
-		}
+            foreach ($data as $record) {
+                fputcsv($output, $record);
+            }
 
-		fseek($output, 0);
+            // Update the progress of the report to indicate something is happening
+            $this->setProgress(
+                $queue,
+                ($step / $totalRecords),
+                "Exporting $step of $totalRecords"
+            );
+        }
 
-		/**
-		 * Create a new asset element using the file.
-		 */
-		try {
-			$folderVolume = Reporter::getInstance()->getExportPath();
+        fseek($output, 0);
 
-			$asset = new Asset();
-			$asset->tempFilePath = $filePath;
-			$asset->title = $this->name;
-			$asset->filename = $fileName;
-			$asset->kind = "application/csv";
-			$asset->newFolderId = (int) $folderVolume->id;
+        /**
+         * Create a new asset element using the file.
+         */
+        try {
+            $folderVolume = Reporter::getInstance()->getExportPath();
 
-			// Only attempt to attach an author if we can determine the identity of the signed-in user
-			// This ensures we can run this without error from the console commands
-			if (Craft::$app->user->identity) {
-				$asset->uploaderId = Craft::$app->user->identity->id;
-			}
+            $asset = new Asset();
+            $asset->tempFilePath = $filePath;
+            $asset->title = $this->name;
+            $asset->filename = $fileName;
+            $asset->kind = 'application/csv';
+            $asset->newFolderId = (int) $folderVolume->id;
 
-			$success = Craft::$app->elements->saveElement($asset);
+            // Only attempt to attach an author if we can determine the identity of the signed-in user
+            // This ensures we can run this without error from the console commands
+            if (Craft::$app->user->identity) {
+                $asset->uploaderId = Craft::$app->user->identity->id;
+            }
 
-			if ($success) {
-				FileHelper::unlink($filePath);
-			}
-		} catch(\Exception $e) {
-			throw new \Exception($e);
-		}
+            $success = Craft::$app->elements->saveElement($asset);
 
-		return true;
-	}
+            if ($success) {
+                FileHelper::unlink($filePath);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e);
+        }
 
-	protected function defaultDescription(): string
-	{
-		return "Running \"{$this->name}\" report";
-	}
+        return true;
+    }
+
+    protected function defaultDescription(): string
+    {
+        return "Running \"{$this->name}\" report";
+    }
 }
