@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tailwindcss -i $npm_package_config_css_in -o $npm_package_config_css_out --minify --postcss",
     "dev": "tailwindcss -i $npm_package_config_css_in -o $npm_package_config_css_out --watch --postcss",
-    "start": "npm run dev"
+    "start": "npm run dev",
+		"format": "prettier styles/**/* --write"
   },
   "keywords": [],
   "author": "",
