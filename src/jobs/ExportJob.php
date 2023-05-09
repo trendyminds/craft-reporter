@@ -38,7 +38,7 @@ class ExportJob extends BaseJob
 		 */
 
 		if ($report->headers) {
-			$headers = $report->headers;
+			$headers = $report->headers();
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
 			$record = (new Manager())->createData($resource)->toArray()['data'][0];
@@ -51,7 +51,7 @@ class ExportJob extends BaseJob
 		//header utf-8
 		fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
-		fputcsv($output, $headers());
+		fputcsv($output, $headers);
 
 		// Loop through each element and insert it into the CSV as a new row
 		foreach ($batch as $i => $row) {
