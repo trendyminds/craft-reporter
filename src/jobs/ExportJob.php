@@ -44,7 +44,7 @@ class ExportJob extends BaseJob
 		 */
 		if ($report->headers !== null) {
 			$headers = $report->headers;
-			fputcsv($output, $headers);
+			fputcsv($output, $headers());
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
 			$record = (new Manager())->createData($resource)->toArray()['data'][0];
