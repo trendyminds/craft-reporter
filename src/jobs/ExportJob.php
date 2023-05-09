@@ -43,13 +43,12 @@ class ExportJob extends BaseJob
 		 * row in our CSV to act as the headers
 		 */
 		if ($report->headers !== null) {
-			ray($report->headers)->showApp();
-			fputcsv($output, $report->headers);
+			$headers = $report->headers;
+			fputcsv($output, $headers);
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
 			$record = (new Manager())->createData($resource)->toArray()['data'][0];
 			$headers = array_keys($record);
-			ray($headers)->showApp();
 			fputcsv($output, $headers);
 		}
 
