@@ -1,5 +1,14 @@
 # Release Notes for Reporter
 
+## 2.0.0 - 2023-17-05
+
+### Added
+- Craft 4 support
+- Option to define column headers, defaults to using first row.
+
+### Fixed
+- CSV Encoding issue with UTF characters
+
 ## 1.3.1 - 2022-10-03
 
 ### Fixed

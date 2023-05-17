@@ -1,42 +1,44 @@
 {
-  "name": "trendyminds/craft-reporter",
-  "description": "Export Craft data as CSVs in a snap",
-  "type": "craft-plugin",
-  "version": "1.3.1",
-  "keywords": ["reports", "craft", "craft cms"],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "TrendyMinds",
-      "homepage": "https://trendyminds.com"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/trendyminds/craft-reporter/issues?state=open",
-    "source": "https://github.com/trendyminds/craft-reporter",
-    "docs": "https://github.com/trendyminds/craft-reporter/blob/master/README.md"
-  },
-  "require": {
+	"name": "trendyminds/craft-reporter",
+	"description": "Export Craft data as CSVs in a snap",
+	"type": "craft-plugin",
+	"version": "2.0.0",
+	"keywords": ["reports", "craft", "craft cms"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "TrendyMinds",
+			"homepage": "https://trendyminds.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/trendyminds/craft-reporter/issues?state=open",
+		"source": "https://github.com/trendyminds/craft-reporter",
+		"docs": "https://github.com/trendyminds/craft-reporter/blob/master/README.md"
+	},
+	"require": {
 		"php": ">=8.0",
-    "craftcms/cms": "^4.0.0",
-    "illuminate/collections": "^9.52.7",
-    "league/fractal": "^0.18.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "trendyminds\\reporter\\": "src/"
-    }
-  },
-  "extra": {
-    "name": "Reporter",
-    "handle": "reporter",
-    "class": "trendyminds\\reporter\\Reporter",
-    "changelogUrl": "https://raw.githubusercontent.com/trendyminds/craft-reporter/main/CHANGELOG.md"
-  },
-  "config": {
-    "allow-plugins": {
-      "yiisoft/yii2-composer": false,
-      "craftcms/plugin-installer": false
-    }
-  }
+		"craftcms/cms": "^4.0.0",
+		"league/fractal": "^0.18.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"trendyminds\\reporter\\": "src/"
+		}
+	},
+	"extra": {
+		"name": "Reporter",
+		"handle": "reporter",
+		"class": "trendyminds\\reporter\\Reporter",
+		"changelogUrl": "https://raw.githubusercontent.com/trendyminds/craft-reporter/main/CHANGELOG.md"
+	},
+	"config": {
+		"allow-plugins": {
+			"yiisoft/yii2-composer": false,
+			"craftcms/plugin-installer": false
+		},
+		"require-dev": {
+			"laravel/pint": "^1.10"
+		}
+	}
 }
