@@ -2,7 +2,7 @@
   "name": "trendyminds/craft-reporter",
   "description": "Export Craft data as CSVs in a snap",
   "type": "craft-plugin",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "keywords": ["reports", "craft", "craft cms"],
   "license": "MIT",
   "authors": [
@@ -38,8 +38,5 @@
       "yiisoft/yii2-composer": false,
       "craftcms/plugin-installer": false
     }
-  },
-  "require-dev": {
-    "laravel/pint": "^1.10"
   }
 }

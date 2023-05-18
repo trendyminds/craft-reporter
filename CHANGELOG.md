@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 1.4.0 - 2023-05-18
+
+### Added
+- Allow ability to change the size of the batch when processing reports via the `batchSize` config setting
+
 ## 1.3.1 - 2022-10-03
 
 ### Fixed

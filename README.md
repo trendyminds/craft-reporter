@@ -40,6 +40,9 @@ return [
     // An optional folder path if you would like to nest the reports in a specific directory
     'folder' => 'resources/reports',
 
+		// An optional batch size to use when processing reports (defaults to 100)
+		'batchSize' => 100,
+
     // An array of reports to produce
     'reports' => [
         'pages' => function () {

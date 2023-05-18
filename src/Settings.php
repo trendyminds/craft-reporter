@@ -25,4 +25,9 @@ class Settings extends Model
      * @var array The reports configurations.
      */
     public $reports = [];
+
+	/**
+	 * @var int The number of records to process at a time.
+	 */
+	public $batchSize = 100;
 }
