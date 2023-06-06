@@ -48,6 +48,11 @@ class ExportJob extends BaseJob
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
 			$record = (new Manager())->createData($resource)->toArray()['data'][0];
+
+			if (is_array($record) && count($record) === 1) {
+				$record = (new Manager())->createData($resource)->toArray()['data'][0][0];
+			}
+
 			$headers = array_keys($record);
 			fputcsv($output, $headers);
 		}
@@ -62,11 +67,25 @@ class ExportJob extends BaseJob
 			// Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
 			$data = collect($data)->filter()->values()->toArray();
 
-			foreach ($data as $record) {
-				//header utf-8
-				fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
-				fputcsv($output, $record);
+			// if its an array with child arrays that contain only 1 item, then create rows for all of them.
+			if (is_array($data[0]) && count($data[0]) === 1) {
+				collect($data)->map(function($records) use (&$output) {
+					collect($records)->map(function($record) use (&$output) {
+						//header utf-8
+						fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
+						fputcsv($output, $record);
+					});
+				})->toArray();
+			} else {
+				// Loop through each row and write it to the CSV
+				foreach ($data as $record) {
+					//header utf-8
+					fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
+					fputcsv($output, $record);
+				}
 			}
 
 			// Update the progress of the report to indicate something is happening
