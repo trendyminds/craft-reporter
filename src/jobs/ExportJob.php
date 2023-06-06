@@ -115,11 +115,11 @@ class ExportJob extends BaseJob
 	{
 		// Find first level of nested object with named keys
 		if (
-			key($array[0]) !== 0 &&
-			gettype(key($array[0])) === "string" &&
-			count($array[0]) !== 1
+			!isset($array[0]) ||
+			key($array[0]) !== 0 ||
+			gettype(key($array[0])) === "string"
 		) {
-			return collect($lastArray)->flatten(1)->toArray();
+			return $lastArray ? collect($lastArray)->collapse()->all() : $array;
 		}
 
 		return $this->recurseFind($array[0], $array);
