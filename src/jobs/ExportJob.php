@@ -47,11 +47,8 @@ class ExportJob extends BaseJob
 			fputcsv($output, $headers());
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
-			$record = (new Manager())->createData($resource)->toArray()['data'][0];
-
-			if (is_array($record) && count($record) === 1) {
-				$record = (new Manager())->createData($resource)->toArray()['data'][0][0];
-			}
+			$record = (new Manager())->createData($resource)->toArray()['data'];
+			$record = $this->recurseFind($record);
 
 			$headers = array_keys($record);
 			fputcsv($output, $headers);
@@ -63,29 +60,16 @@ class ExportJob extends BaseJob
 
 			$resource = new Collection($row, $report->transformer);
 			$data = (new Manager())->createData($resource)->toArray()['data'];
+			$data = $this->recurseFind($data);
 
 			// Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
 			$data = collect($data)->filter()->values()->toArray();
 
+			foreach ($data as $record) {
+				//header utf-8
+				fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
-			// if its an array with child arrays that contain only 1 item, then create rows for all of them.
-			if (is_array($data[0]) && count($data[0]) === 1) {
-				collect($data)->map(function($records) use (&$output) {
-					collect($records)->map(function($record) use (&$output) {
-						//header utf-8
-						fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
-
-						fputcsv($output, $record);
-					});
-				})->toArray();
-			} else {
-				// Loop through each row and write it to the CSV
-				foreach ($data as $record) {
-					//header utf-8
-					fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
-
-					fputcsv($output, $record);
-				}
+				fputcsv($output, $record);
 			}
 
 			// Update the progress of the report to indicate something is happening
@@ -125,6 +109,20 @@ class ExportJob extends BaseJob
 		} catch(\Exception $e) {
 			throw new \Exception($e);
 		}
+	}
+
+	protected function recurseFind($array, $lastArray = null)
+	{
+		// Find first level of nested object with named keys
+		if (
+			key($array[0]) !== 0 &&
+			gettype(key($array[0])) === "string" &&
+			count($array[0]) !== 1
+		) {
+			return collect($lastArray)->flatten(1)->toArray();
+		}
+
+		return $this->recurseFind($array[0], $array);
 	}
 
 	protected function defaultDescription(): string
