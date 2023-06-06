@@ -48,7 +48,7 @@ class ExportJob extends BaseJob
 		} else {
 			$resource = new Collection([ $report->query->one() ], $report->transformer);
 			$record = (new Manager())->createData($resource)->toArray()['data'];
-			$record = $this->recurseFind($record);
+			$record = $this->recurseFind($record)[0];
 
 			$headers = array_keys($record);
 			fputcsv($output, $headers);
