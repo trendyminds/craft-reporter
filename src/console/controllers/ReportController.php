@@ -33,6 +33,7 @@ class ReportController extends Controller
         if (! $this->handle) {
             $this->stderr('You must supply a --handle parameter to indicate which report to process:'.PHP_EOL, Console::FG_RED);
             $this->stderr('php craft reporter/report --handle=myReportHandle'.PHP_EOL);
+
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
@@ -43,6 +44,7 @@ class ReportController extends Controller
         if (! $report) {
             $this->stderr('You must specify the handle of an existing report to export.'.PHP_EOL, Console::FG_RED);
             $this->stderr('Consult `config/reporter.php` to ensure you created at least one report and properly referenced the handle.'.PHP_EOL, Console::FG_RED);
+
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
@@ -60,6 +62,6 @@ class ReportController extends Controller
             ])
         );
 
-		return ExitCode::OK;
+        return ExitCode::OK;
     }
 }
