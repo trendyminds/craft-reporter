@@ -6,6 +6,7 @@ use Craft;
 use craft\console\Controller;
 use trendyminds\reporter\jobs\ExportJob;
 use trendyminds\reporter\Reporter;
+use yii\console\ExitCode;
 use yii\helpers\Console;
 
 class ReportController extends Controller
@@ -15,7 +16,7 @@ class ReportController extends Controller
      */
     public $handle = null;
 
-    public function options($actionID)
+    public function options($actionID): array
     {
         $options = parent::options($actionID);
         $options[] = 'handle';
@@ -26,13 +27,13 @@ class ReportController extends Controller
     /**
      *  Export a single Reporter report using --handle=myReportHandle
      */
-    public function actionIndex()
+    public function actionIndex(): int
     {
         // Error if the user did not supply a --handle param
         if (! $this->handle) {
             $this->stderr('You must supply a --handle parameter to indicate which report to process:'.PHP_EOL, Console::FG_RED);
             $this->stderr('php craft reporter/report --handle=myReportHandle'.PHP_EOL);
-            exit();
+            return ExitCode::UNSPECIFIED_ERROR;
         }
 
         // Get the report by its handle
@@ -42,7 +43,7 @@ class ReportController extends Controller
         if (! $report) {
             $this->stderr('You must specify the handle of an existing report to export.'.PHP_EOL, Console::FG_RED);
             $this->stderr('Consult `config/reporter.php` to ensure you created at least one report and properly referenced the handle.'.PHP_EOL, Console::FG_RED);
-            exit();
+            return ExitCode::UNSPECIFIED_ERROR;
         }
 
         // Process the closure and reassign the output for the remaining steps
@@ -58,5 +59,7 @@ class ReportController extends Controller
                 'name' => $report['name'],
             ])
         );
+
+		return ExitCode::OK;
     }
 }

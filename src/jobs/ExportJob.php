@@ -17,7 +17,7 @@ class ExportJob extends BaseJob
 
     public $handle;
 
-    public function execute($queue)
+    public function execute($queue): void
     {
         $report = Reporter::getInstance()->getReportData($this->handle);
         $batchSize = Reporter::getInstance()->getSettings()->batchSize;
@@ -96,8 +96,6 @@ class ExportJob extends BaseJob
         } catch (\Exception $e) {
             throw new \Exception($e);
         }
-
-        return true;
     }
 
     protected function defaultDescription(): string

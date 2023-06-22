@@ -10,7 +10,7 @@ use trendyminds\reporter\Reporter;
 
 class DefaultController extends Controller
 {
-    protected $allowAnonymous = false;
+    protected array|int|bool $allowAnonymous = false;
 
     /**
      * The landing page controller that displays all available reports that can be exported.
