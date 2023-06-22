@@ -26,8 +26,8 @@ class Settings extends Model
      */
     public $reports = [];
 
-	/**
-	 * @var int The number of records to process at a time.
-	 */
-	public $batchSize = 100;
+    /**
+     * @var int The number of records to process at a time.
+     */
+    public $batchSize = 100;
 }

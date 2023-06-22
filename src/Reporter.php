@@ -12,7 +12,7 @@ use yii\base\Event;
 
 class Reporter extends Plugin
 {
-    public $hasCpSection = true;
+    public bool $hasCpSection = true;
 
     public function init()
     {
@@ -103,7 +103,7 @@ class Reporter extends Plugin
      *
      * @return void
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?craft\base\Model
     {
         return new Settings();
     }
