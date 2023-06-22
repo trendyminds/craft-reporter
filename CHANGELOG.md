@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 2.0.0 - 2023-06-22
+
+### Added
+- Craft 4 support (Thanks, [@darinlarimore](https://github.com/darinlarimore)!)
+
 ## 1.4.0 - 2023-05-18
 
 ### Added

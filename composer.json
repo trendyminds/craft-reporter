@@ -2,7 +2,7 @@
   "name": "trendyminds/craft-reporter",
   "description": "Export Craft data as CSVs in a snap",
   "type": "craft-plugin",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "keywords": ["reports", "craft", "craft cms"],
   "license": "MIT",
   "authors": [
@@ -17,10 +17,9 @@
     "docs": "https://github.com/trendyminds/craft-reporter/blob/master/README.md"
   },
   "require": {
-		"php": ">=7.3",
-    "craftcms/cms": "^3.5.0",
-    "illuminate/collections": "^8.83",
-    "league/fractal": "^0.18.0"
+		"php": ">=8.0.2",
+    "craftcms/cms": "^4.0.0",
+    "league/fractal": "^0.20.1"
   },
   "autoload": {
     "psr-4": {
@@ -38,5 +37,8 @@
       "yiisoft/yii2-composer": false,
       "craftcms/plugin-installer": false
     }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.10"
   }
 }

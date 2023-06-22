@@ -20,7 +20,7 @@ class ExportJob extends BaseJob
     public function execute($queue)
     {
         $report = Reporter::getInstance()->getReportData($this->handle);
-		$batchSize = Reporter::getInstance()->getSettings()->batchSize;
+        $batchSize = Reporter::getInstance()->getSettings()->batchSize;
         $batch = $report->query->batch($batchSize);
 
         // The total number of records to process is either the limit set by the user, or all records in the query
