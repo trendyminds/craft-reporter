@@ -57,12 +57,14 @@ class DefaultController extends Controller
         $this->requirePostRequest();
 
         $reportHandle = $this->request->getRequiredBodyParam('report');
+        $userId = $this->request->getRequiredBodyParam('userId');
         $report = Reporter::getInstance()->getReport($reportHandle)();
 
         Craft::$app->getQueue()->push(
             new ExportJob([
                 'handle' => $reportHandle,
                 'name' => $report['name'],
+                'userId' => $userId,
             ])
         );
 

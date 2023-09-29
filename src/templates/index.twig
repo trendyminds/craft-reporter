@@ -32,6 +32,7 @@
 									{{ csrfInput() }}
 									{{ actionInput('reporter/default/run') }}
 									{{ hiddenInput('report', report.handle) }}
+									{{ hiddenInput('userId', currentUser.id) }}
 									<button class="btn submit" type="submit">
 										Run Report
 									</button>
