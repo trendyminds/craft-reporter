@@ -17,6 +17,8 @@ class ExportJob extends BaseJob
 
     public $handle;
 
+    public $userId;
+
     public function execute($queue): void
     {
         $report = Reporter::getInstance()->getReportData($this->handle);
@@ -82,10 +84,9 @@ class ExportJob extends BaseJob
             $asset->kind = 'application/csv';
             $asset->newFolderId = (int) $folderVolume->id;
 
-            // Only attempt to attach an author if we can determine the identity of the signed-in user
-            // This ensures we can run this without error from the console commands
-            if (Craft::$app->user->identity) {
-                $asset->uploaderId = Craft::$app->user->identity->id;
+            // Only set the uploader if we have a user ID to work with (we might not for console requests)
+            if ($this->userId) {
+                $asset->uploaderId = $this->userId;
             }
 
             $success = Craft::$app->elements->saveElement($asset);

@@ -1,5 +1,11 @@
 # Release Notes for Reporter
 
+## 2.2.0 - 2023-09-29
+
+### Added
+- Include new user avatars in the Exports view
+- Ensure all exports have an `uploaderId`. When ran in the console this defaults to the first admin
+
 ## 2.1.0 - 2023-09-29
 
 ### Fixed

@@ -4,6 +4,7 @@ namespace trendyminds\reporter\console\controllers;
 
 use Craft;
 use craft\console\Controller;
+use craft\elements\User;
 use trendyminds\reporter\jobs\ExportJob;
 use trendyminds\reporter\Reporter;
 use yii\console\ExitCode;
@@ -59,6 +60,7 @@ class ReportController extends Controller
             new ExportJob([
                 'handle' => $this->handle,
                 'name' => $report['name'],
+				'userId' => User::find()->admin()->one()->id ?? null,
             ])
         );
 
