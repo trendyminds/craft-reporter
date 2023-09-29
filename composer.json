@@ -2,7 +2,7 @@
   "name": "trendyminds/craft-reporter",
   "description": "Export Craft data as CSVs in a snap",
   "type": "craft-plugin",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "keywords": ["reports", "craft", "craft cms"],
   "license": "MIT",
   "authors": [
@@ -19,7 +19,7 @@
   "require": {
 		"php": ">=8.0.2",
     "craftcms/cms": "^4.0.0",
-    "league/fractal": "^0.20.1"
+    "league/fractal": "^0.18.0"
   },
   "autoload": {
     "psr-4": {
