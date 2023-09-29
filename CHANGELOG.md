@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 2.1.0 - 2023-09-29
+
+### Fixed
+- Downgrade league/fractal to ^0.18.0 to play nicely with Element API
+
 ## 2.0.0 - 2023-06-22
 
 ### Added
