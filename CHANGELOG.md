@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 3.0.0 - 2024-01-01
+
+### Added
+- Add Craft 5 (alpha 3) support
+
 ## 2.2.0 - 2023-09-29
 
 ### Added
