@@ -1,5 +1,10 @@
 # Release Notes for Reporter
 
+## 2.3.0 - 2024-04-10
+
+### Added
+- Update league/fractal to ^0.20.1
+
 ## 2.2.0 - 2023-09-29
 
 ### Added

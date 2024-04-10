@@ -2,7 +2,7 @@
   "name": "trendyminds/craft-reporter",
   "description": "Export Craft data as CSVs in a snap",
   "type": "craft-plugin",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "keywords": ["reports", "craft", "craft cms"],
   "license": "MIT",
   "authors": [
