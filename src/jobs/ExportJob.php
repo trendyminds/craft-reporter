@@ -25,8 +25,14 @@ class ExportJob extends BaseJob
         $batchSize = Reporter::getInstance()->getSettings()->batchSize;
         $batch = $report->query->batch($batchSize);
 
-        // The total number of records to process is either the limit set by the user, or all records in the query
-        $totalRecords = $report->query->limit ?? $report->query->count();
+        // count() ignores limit and offset, so apply them ourselves to get the number of rows the batch will return
+        $totalRecords = max(0, $report->query->count() - ($report->query->offset ?? 0));
+
+        if ($report->query->limit !== null) {
+            $totalRecords = min($totalRecords, $report->query->limit);
+        }
+
+        $processed = 0;
 
         /**
          * Construct the temporary CSV file for writing each row
@@ -40,7 +46,7 @@ class ExportJob extends BaseJob
          * row in our CSV to act as the headers
          */
         $resource = new Collection([$report->query->one()], $report->transformer);
-        $record = (new Manager())->createData($resource)->toArray()['data'][0];
+        $record = (new Manager)->createData($resource)->toArray()['data'][0];
 
         // Create the first header row
         $headers = array_keys($record);
@@ -48,11 +54,11 @@ class ExportJob extends BaseJob
         fputcsv($output, $headers);
 
         // Loop through each element and insert it into the CSV as a new row
-        foreach ($batch as $i => $row) {
-            $step = ($i + 1) * $batch->batchSize;
+        foreach ($batch as $row) {
+            $processed += count($row);
 
             $resource = new Collection($row, $report->transformer);
-            $data = (new Manager())->createData($resource)->toArray()['data'];
+            $data = (new Manager)->createData($resource)->toArray()['data'];
 
             // Collect and filter out any empty arrays (in case the user is returning an empty array to skip over it)
             $data = collect($data)->filter()->values()->toArray();
@@ -64,8 +70,8 @@ class ExportJob extends BaseJob
             // Update the progress of the report to indicate something is happening
             $this->setProgress(
                 $queue,
-                ($step / $totalRecords),
-                "Exporting $step of $totalRecords"
+                $processed / $totalRecords,
+                "Exporting $processed of $totalRecords"
             );
         }
 
@@ -77,7 +83,7 @@ class ExportJob extends BaseJob
         try {
             $folderVolume = Reporter::getInstance()->getExportPath();
 
-            $asset = new Asset();
+            $asset = new Asset;
             $asset->tempFilePath = $filePath;
             $asset->title = $this->name;
             $asset->filename = $fileName;

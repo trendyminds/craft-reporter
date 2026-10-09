@@ -1,5 +1,17 @@
 # Release Notes for Reporter
 
+## 3.0.0 - 2026-10-08
+
+### Added
+- Craft CMS 5 support
+- Allow league/fractal ^0.21
+
+### Changed
+- Requires Craft CMS 5 and PHP 8.2+
+
+### Fixed
+- Export progress no longer overshoots the total on the final batch, and the total accounts for `offset` and limits larger than the result set
+
 ## 2.3.0 - 2024-04-10
 
 ### Added

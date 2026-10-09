@@ -3,11 +3,11 @@
 namespace trendyminds\reporter;
 
 use Craft;
+use craft\base\Model;
 use craft\base\Plugin;
 use craft\events\RegisterUrlRulesEvent;
 use craft\models\VolumeFolder;
 use craft\web\UrlManager;
-use Stringy\Stringy;
 use yii\base\Event;
 
 class Reporter extends Plugin
@@ -55,14 +55,11 @@ class Reporter extends Plugin
             throw new \Exception('Your volume is invalid. Please make sure a volume value is set in your config and the volume handle is valid.');
         }
 
-        $path = Stringy::create($this->getSettings()->folder)
-            ->trimLeft('/')
-            ->trimRight('/')
-            ->__toString();
+        $path = trim($this->getSettings()->folder ?? '', '/');
 
         // Only append a trailing slash if we don't have an empty string
         if ($path) {
-            $path = Stringy::create($path)->append('/')->__toString();
+            $path .= '/';
         }
 
         /** @var VolumeFolder */
@@ -81,7 +78,7 @@ class Reporter extends Plugin
     /**
      * Returns the data for a report given a report handle
      *
-     * @param  string  $report The name of the report to fetch
+     * @param  string  $report  The name of the report to fetch
      * @return object An object containing the query and transformer to use when iterating over each row
      */
     public function getReportData(string $report): object
@@ -103,8 +100,8 @@ class Reporter extends Plugin
      *
      * @return void
      */
-    protected function createSettingsModel(): ?craft\base\Model
+    protected function createSettingsModel(): ?Model
     {
-        return new Settings();
+        return new Settings;
     }
 }
